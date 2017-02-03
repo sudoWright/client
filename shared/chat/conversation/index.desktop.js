@@ -9,7 +9,7 @@ import {Box, Icon} from '../../common-adapters'
 import {globalStyles, globalColors} from '../../styles'
 import {readImageFromClipboard} from '../../util/clipboard.desktop'
 import {nothingSelected} from '../../constants/chat'
-import {withHandlers, branch, renderComponent} from 'recompose'
+import {withHandlers, branch, renderComponent, compose} from 'recompose'
 
 import type {Props} from '.'
 
@@ -30,7 +30,20 @@ const withFocusHandlers = withHandlers(() => {
   }
 })
 
-class Conversation extends Component<void, Props & FocusHandlerProps, State> {
+type EditLastHandlerProps = {
+  onListRef: (list: React$Element<*>) => void,
+  onEditLastMessage: () => void,
+}
+
+const withEditLastHandlers = withHandlers(() => {
+  let _list
+  return {
+    onEditLastMessage: (props) => () => { _list && _list.onEditLastMessage() },
+    onListRef: (props) => (list) => { _list = list },
+  }
+})
+
+class Conversation extends Component<void, Props & FocusHandlerProps & EditLastHandlerProps, State> {
   state = {
     showDropOverlay: false,
   }
@@ -88,7 +101,9 @@ class Conversation extends Component<void, Props & FocusHandlerProps, State> {
       onDeleteMessage,
       onEditMessage,
       onFocusInput,
+      onEditLastMessage,
       onInputRef,
+      onListRef,
       onLoadAttachment,
       onLoadMoreMessages,
       onOpenFolder,
@@ -145,6 +160,7 @@ class Conversation extends Component<void, Props & FocusHandlerProps, State> {
           onRetryMessage={onRetryMessage}
           onShowProfile={onShowProfile}
           participants={participants}
+          ref={onListRef}
           selectedConversation={selectedConversation}
           sidePanelOpen={sidePanelOpen}
           validated={validated}
@@ -155,6 +171,7 @@ class Conversation extends Component<void, Props & FocusHandlerProps, State> {
           emojiPickerOpen={emojiPickerOpen}
           isLoading={isLoading}
           onAttach={onAttach}
+          onEditLastMessage={onEditLastMessage}
           onPostMessage={onPostMessage}
           selectedConversation={selectedConversation}
         />
@@ -186,4 +203,5 @@ const dropOverlayStyle = {
 export default branch(
   (props: Props) => props.selectedConversation === nothingSelected,
   renderComponent(NoConversation),
-withFocusHandlers)(Conversation)
+  compose(withFocusHandlers, withEditLastHandlers)
+)(Conversation)
