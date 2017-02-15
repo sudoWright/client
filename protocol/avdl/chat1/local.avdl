@@ -176,6 +176,8 @@ protocol local {
     Hash bodyHash;
     union { null, OutboxInfo } outboxInfo;
     union { null, OutboxID } outboxID;
+    // Signature over the serialized HeaderPlaintextV1 (with headerSignature set to null).
+    // Null-valued when inside a MessageBoxed V2. Because it is signenrypted outside.
     union {null, SignatureInfo} headerSignature;
   }
 
@@ -256,8 +258,16 @@ protocol local {
     string senderUsername;
     string senderDeviceName;
     string senderDeviceType;
+    // MessageBoxed.V1: Hash of the encrypted header ciphertext.
+    // MessageBoxed.V2: Hash of the signcrypted header ciphertext.
+    // TODO MAYBE in sandwich v2 hash the signcryption nonce into this
     Hash headerHash;
+    // TODO maybe nuke this headerSignature field. If so bump the caches in storage_blockengine.go
+    // TODO use verificationKey (populate and recheck) instead.
     union {null, SignatureInfo} headerSignature;
+    // The verification key used to unbox
+    // TODO populate, see note above
+    union {null, bytes} verificationKey;
     // Whether the message was sent by a device that is now revoked.
     // We aren't sure whether the device was revoked when the message was sent.
     // Re-evaluated when unboxed or pulled from the cache.
