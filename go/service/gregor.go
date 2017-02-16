@@ -161,6 +161,11 @@ func newGregorHandler(g *libkb.GlobalContext) (*gregorHandler, error) {
 		chatHandler:     chat.NewPushHandler(g),
 	}
 
+	// Set up Offlinables on Syncer
+	gh.chatSync.RegisterOfflinable(g.InboxSource)
+	gh.chatSync.RegisterOfflinable(g.ConvSource)
+	gh.chatSync.RegisterOfflinable(g.MessageDeliverer)
+
 	// Attempt to create a gregor client initially, if we are not logged in
 	// or don't have user/device info in G, then this won't work
 	if err := gh.resetGregorClient(); err != nil {
