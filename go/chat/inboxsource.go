@@ -449,6 +449,7 @@ func (s *HybridInboxSource) fetchRemoteInbox(ctx context.Context, query *chat1.G
 func (s *HybridInboxSource) Read(ctx context.Context, uid gregor1.UID,
 	localizer interfaces.ChatLocalizer, useLocalData bool, query *chat1.GetInboxLocalQuery, p *chat1.Pagination) (inbox chat1.Inbox, rl *chat1.RateLimit, err error) {
 
+	defer s.Trace(ctx, func() error { return err }, "Read")()
 	if localizer == nil {
 		localizer = NewBlockingLocalizer(s.G(), s.getTlfInterface)
 	}
@@ -478,6 +479,7 @@ func (s *HybridInboxSource) Read(ctx context.Context, uid gregor1.UID,
 
 func (s *HybridInboxSource) ReadUnverified(ctx context.Context, uid gregor1.UID, useLocalData bool,
 	query *chat1.GetInboxQuery, p *chat1.Pagination) (res chat1.Inbox, rl *chat1.RateLimit, err error) {
+	defer s.Trace(ctx, func() error { return err }, "ReadUnverified")()
 
 	var inbox chat1.Inbox
 	var cerr storage.Error
@@ -649,6 +651,7 @@ func (s *localizerPipeline) localizeConversationsPipeline(ctx context.Context, u
 		conv  chat1.Conversation
 		index int
 	}
+
 	eg, ctx := errgroup.WithContext(ctx)
 	convCh := make(chan job)
 	retCh := make(chan jobRes)
