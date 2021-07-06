@@ -42,7 +42,9 @@
     "rn-gobuild-ios": "./react-native/gobuild.sh ios",
     "rn-gobuild-android": "./react-native/gobuild.sh android",
     "rn-packager-wipe-cache": "watchman watch-del-all && rm -rf node_modules && yarn && node ./react-native/wipe-cache.js",
-    "rn-test-ios": "xcodebuild test -project ./react-native/ios/Keybase.xcodeproj -scheme 'Keybase For Test' -destination 'platform=iOS Simulator,name=iPhone 6s,OS=9.3'"
+    "rn-test-ios": "xcodebuild test -project ./react-native/ios/Keybase.xcodeproj -scheme 'Keybase For Test' -destination 'platform=iOS Simulator,name=iPhone 6s,OS=9.3'",
+    "snyk-protect": "snyk protect",
+    "prepare": "yarn run snyk-protect"
   },
   "keywords": [],
   "author": "",
@@ -92,7 +94,8 @@
     "shallowequal": "0.2.2",
     "transit-immutable-js": "0.7.0",
     "transit-js": "0.8.846",
-    "util": "0.10.3"
+    "util": "0.10.3",
+    "snyk": "^1.653.0"
   },
   "devDependencies": {
     "babel-cli": "6.24.0",
@@ -157,5 +160,6 @@
   },
   "optionalDependencies": {
     "fsevents": "1.0.17"
-  }
+  },
+  "snyk": true
 }
