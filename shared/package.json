@@ -64,7 +64,7 @@
     "lodash": "4.17.4",
     "material-ui": "0.15.4",
     "menubar": "5.1.0",
-    "mkdirp": "0.5.1",
+    "mkdirp": "0.5.2",
     "moment": "2.18.0",
     "purepack": "1.0.4",
     "qrcode-generator": "1.0.5",
