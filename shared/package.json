@@ -135,7 +135,7 @@
     "flow-bin": "0.41.0",
     "fs-extra": "1.0.0",
     "jest": "19.0.2",
-    "minimist": "1.2.0",
+    "minimist": "1.2.6",
     "mocha": "3.2.0",
     "null-loader": "0.1.1",
     "pegjs": "0.10.0",
