@@ -130,7 +130,7 @@
     "eslint-plugin-promise": "3.5.0",
     "eslint-plugin-react": "6.10.3",
     "eslint-plugin-standard": "2.1.1",
-    "express": "4.15.2",
+    "express": "4.17.3",
     "file-loader": "0.10.1",
     "flow-bin": "0.41.0",
     "fs-extra": "1.0.0",
