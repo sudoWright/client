@@ -1,4 +1,4 @@
-FROM debian
+FROM debian:bullseye
 MAINTAINER Keybase <admin@keybase.io>
 
 # Install dependencies from the standard repos.
